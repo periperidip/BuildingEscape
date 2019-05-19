@@ -9,7 +9,7 @@ UPositionTeller::UPositionTeller()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	bWantsBeginPlay = true;
+	//bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
 
 	
@@ -22,7 +22,8 @@ void UPositionTeller::BeginPlay()
 	Super::BeginPlay();
 
 	FString ObjectName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("Hello there %s"), *ObjectName);
+	FString ObjectPosition = GetOwner()->GetTransform().GetLocation().ToString();             //Alternate way : GetOwner()->GetActorLocation().ToString();
+	UE_LOG(LogTemp, Warning, TEXT("Hello there %s at %s"), *ObjectName, *ObjectPosition);
 	
 }
 
