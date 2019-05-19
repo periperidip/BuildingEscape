@@ -1,0 +1,16 @@
+#Unreal Engine Files
+
+*/Intermediate/
+*/Saved/
+*/Binaries/
+*/Build
+*/DerivedDataCache
+
+BuildingEscape/Content/StarterContent/
+
+#VS Files
+
+*.VC.db
+*.db-wal
+*.db-shm
+*.opendb
