@@ -15,3 +15,4 @@ BuildingEscape/Content/StarterContent/
 *.db-shm
 *.opendb
 *.ipch
+*.suo
