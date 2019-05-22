@@ -37,7 +37,7 @@ private:
 	UPROPERTY(EditAnywhere) ATriggerVolume* PressurePlate;             //used to see when an actor has entered this particular area 
 	                                                                   //and then give response
 
-	UPROPERTY(EditAnywhere) AActor* ActorThatOpens;
+	 AActor* ActorThatOpens;
 
 
 		

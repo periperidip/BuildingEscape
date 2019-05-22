@@ -2,7 +2,8 @@
 
 #include "DoorOpen.h"
 #include "BuildingEscape.h"
-#include "GameFramework/Actor.h"
+
+
 
 // Sets default values for this component's properties
 UDoorOpen::UDoorOpen()
@@ -17,6 +18,9 @@ UDoorOpen::UDoorOpen()
 void UDoorOpen::BeginPlay()
 {
 	Super::BeginPlay();
+	ActorThatOpens=GetWorld()->GetFirstPlayerController()->GetPawn();    //This will set our actor to our default pawn itself
+	                                                                     //This is a Top->Bottom Approach.We first find the World that has controller
+	                                                                     //Then we find the actor/pawn held by the controller.
 
 }
 
