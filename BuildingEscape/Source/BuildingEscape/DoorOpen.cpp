@@ -1,6 +1,7 @@
  // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "DoorOpen.h"
+#include "Engine/World.h"
 #include "BuildingEscape.h"
 
 
@@ -21,21 +22,18 @@ void UDoorOpen::BeginPlay()
 	ActorThatOpens=GetWorld()->GetFirstPlayerController()->GetPawn();    //This will set our actor to our default pawn itself
 	                                                                     //This is a Top->Bottom Approach.We first find the World that has controller
 	                                                                     //Then we find the actor/pawn held by the controller.
-
 }
 
 void UDoorOpen::OpenDoor()
 {
-	AActor* Owner = GetOwner();
-
-	FRotator NewRotation = FRotator(0.0f, -60.0f, 0.0f);
-
-	Owner->SetActorRotation(NewRotation);
+	Owner = GetOwner();
+    FRotator NewRotation = FRotator(0.0f,OpenAngle, 0.0f);
+    Owner->SetActorRotation(NewRotation);
 }
 
 void UDoorOpen::CloseDoor()
 {
-	AActor* Owner = GetOwner();
+	Owner = GetOwner();
 	FRotator NewRotator = FRotator(0.f, 0.f, 0.f);
     Owner->SetActorRotation(NewRotator);
 }
@@ -47,8 +45,12 @@ void UDoorOpen::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
     
 	if (PressurePlate->IsOverlappingActor(ActorThatOpens))
+	{
 		OpenDoor();
-	else
+		LastDoorOpen = GetWorld()->GetTimeSeconds();
+	}
+	
+	else if ((GetWorld()->GetTimeSeconds()) - LastDoorOpen > GapTime)
 		CloseDoor();
 	
 
