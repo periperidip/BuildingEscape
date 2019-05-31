@@ -2,6 +2,7 @@
 
 #include "DoorOpen.h"
 #include "Engine/World.h"
+#include "GameFramework/PlayerController.h"
 #include "BuildingEscape.h"
 
 
