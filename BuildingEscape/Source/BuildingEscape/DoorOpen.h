@@ -34,11 +34,12 @@ private:
 
 	UPROPERTY(EditAnywhere) float OpenAngle = 90.0f;     
 
-	UPROPERTY(EditAnywhere) ATriggerVolume* PressurePlate;             //used to see when an actor has entered this particular area 
-	                                                                   //and then give response
+	UPROPERTY(EditAnywhere) ATriggerVolume* PressurePlate;             
+	//^^^  used to see when an actor has entered this particular area and then give response  ^^^
+	                                                          
 	UPROPERTY(EditAnywhere) float GapTime = 0.5f;
 	
-	 AActor* ActorThatOpens;
-	 AActor* Owner;
-	 float LastDoorOpen;
+	AActor* ActorThatOpens;
+	AActor* Owner;
+	float LastDoorOpen;
 };
