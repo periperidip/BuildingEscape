@@ -9,7 +9,7 @@
 #define OUT                   //to match our arguments with the function signature.
 
 
-// Sets default values for this component's properties
+/// Sets default values for this component's properties
 UGrabber::UGrabber()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
@@ -20,17 +20,37 @@ UGrabber::UGrabber()
 }
 
 
-// Called when the game starts
+/// Called when the game starts
 void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 	
+	if (PhysicsHandle)
+	{}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("PHYSICS HANDLE NOT FOUND in %s ,GAME PHYSICS WILL NOT BE SIMULATED"),*(GetOwner()->GetName()));
+	}
+	
+    PawnInput = GetOwner()->FindComponentByClass<UInputComponent>();
+
+	if (PawnInput)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("INPUT FOUND"));
+		PawnInput->BindAction("Grab", EInputEvent::IE_Pressed, this, &UGrabber::Grab);
+		PawnInput->BindAction("Release", EInputEvent::IE_Released, this, &UGrabber::Release);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("INPUT COMPONENT NOT FOUND in %s ,KEYBINDS WILL NOT BE SIMULATED"), *(GetOwner()->GetName()));
+	}
+
 }
 
 
-// Called every frame
+/// Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
@@ -68,6 +88,16 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		UE_LOG(LogTemp, Warning, TEXT("WE ARE HITTING %s"), *(ActorHit->GetName()));
 	}
 
+	//^^^ GetOwner()->GetName() cannot be used because it gives the name of who is calling the code, Blueprint in this case.
+}
 
+void UGrabber::Grab()
+{
+	UE_LOG(LogTemp, Warning, TEXT("MAIN AAGAYA"));
+}
+
+void UGrabber::Release()
+{
+	UE_LOG(LogTemp, Warning, TEXT("MAIN CHALA GAYA"));
 }
 

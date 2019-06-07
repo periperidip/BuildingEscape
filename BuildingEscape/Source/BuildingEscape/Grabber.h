@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
+#include "Components/InputComponent.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
@@ -10,7 +10,7 @@
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUILDINGESCAPE_API UGrabber : public UActorComponent
-{  GENERATED_BODY()
+{   GENERATED_BODY()
 public:	
 	// Sets default values for this component's properties
 	UGrabber();
@@ -25,4 +25,10 @@ public:
 
 private: float Reach = 100.f;
 
+		 UPhysicsHandleComponent* PhysicsHandle=nullptr;
+         //^^^ To move physics objects around. ^^^
+		 
+		 UInputComponent* PawnInput = nullptr;
+		 void Grab();
+		 void Release();
 };
