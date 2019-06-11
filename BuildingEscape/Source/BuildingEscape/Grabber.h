@@ -32,6 +32,8 @@ private: float Reach = 100.f;
 		 UInputComponent* PawnInput = nullptr;
 		 void Grab();
 		 void Release();
+		 FVector FinalLineEnd();
+		 FVector FinalLineStart();
 		 void KeyBinder();
 		 void FindPhysicsComponent();
 };
