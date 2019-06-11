@@ -9,7 +9,7 @@ UPositionTeller::UPositionTeller()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	//bWantsBeginPlay = true;
+	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
 
 	
@@ -23,8 +23,8 @@ void UPositionTeller::BeginPlay()
 
 	FString ObjectName = GetOwner()->GetName();
 	FString ObjectPosition = GetOwner()->GetTransform().GetLocation().ToString();            
-	//^^  Alternate way : GetOwner()->GetActorLocation().ToString();  ^^^
-	//GetTransform gives us the three Trasnforms of unreal (location,rotation and scale).
+	/// ^^^  Alternate way : GetOwner()->GetActorLocation().ToString();  ^^^
+	/// GetTransform gives us the three Trasnforms of unreal (location,rotation and scale).
 	
 	UE_LOG(LogTemp, Warning, TEXT("Hello there %s at %s"), *ObjectName, *ObjectPosition);
 	
@@ -35,7 +35,5 @@ void UPositionTeller::BeginPlay()
 void UPositionTeller::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	
 }
 

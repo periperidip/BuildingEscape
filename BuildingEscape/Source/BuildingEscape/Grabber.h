@@ -22,13 +22,16 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+    FHitResult PhysicsBodyHitChecker();
 
 private: float Reach = 100.f;
 
 		 UPhysicsHandleComponent* PhysicsHandle=nullptr;
-         //^^^ To move physics objects around. ^^^
+         /// ^^^ To move physics objects around. ^^^
 		 
 		 UInputComponent* PawnInput = nullptr;
 		 void Grab();
 		 void Release();
+		 void KeyBinder();
+		 void FindPhysicsComponent();
 };
