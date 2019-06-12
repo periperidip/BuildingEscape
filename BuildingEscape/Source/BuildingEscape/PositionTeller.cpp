@@ -22,12 +22,14 @@ void UPositionTeller::BeginPlay()
 	Super::BeginPlay();
 
 	FString ObjectName = GetOwner()->GetName();
+	/// ^^^ Find the owner and then Get its name ^^^
+
 	FString ObjectPosition = GetOwner()->GetTransform().GetLocation().ToString();            
 	/// ^^^  Alternate way : GetOwner()->GetActorLocation().ToString();  ^^^
 	/// GetTransform gives us the three Trasnforms of unreal (location,rotation and scale).
 	
 	UE_LOG(LogTemp, Warning, TEXT("Hello there %s at %s"), *ObjectName, *ObjectPosition);
-	
+
 }
 
 

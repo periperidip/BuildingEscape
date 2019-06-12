@@ -24,11 +24,13 @@ void UDoorOpen::BeginPlay()
 																		 /// This is a Top->Bottom Approach.We first find the World that has controller
 																		 /// Then we find the actor/pawn held by the controller.
 
+
+	
 }
 
 void UDoorOpen::OpenDoor()
 {
-	Owner = GetOwner();
+	Owner = GetOwner();                                                  ///<- The door here is the owner
     FRotator NewRotation = FRotator(0.0f,OpenAngle, 0.0f);
     Owner->SetActorRotation(NewRotation);
 }
@@ -46,15 +48,33 @@ void UDoorOpen::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
     
-	if (PressurePlate->IsOverlappingActor(ActorThatOpens))
+	//if (PressurePlate->IsOverlappingActor(ActorThatOpens))
+	//{
+	//	OpenDoor();
+	//	LastDoorOpen = GetWorld()->GetTimeSeconds();    //TODO find exact meaning of GetTimeSeconds
+	//}
+	FHitResult Hit;
+
+	FVector TriggerVolumeLocation = PressurePlate->GetActorLocation();
+	FVector TriggerVolumeHeight = FVector(0.f, 0.f, 21.f);
+
+	if (GetWorld()->LineTraceSingleByObjectType(OUT Hit, TriggerVolumeLocation, TriggerVolumeHeight,
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody), FCollisionQueryParams(FName(TEXT("")), false, GetOwner())))
 	{
 		OpenDoor();
-		LastDoorOpen = GetWorld()->GetTimeSeconds();    //TODO find exact meaning of GetTimeSeconds
+		LastDoorOpen = GetWorld()->GetTimeSeconds();
+	}
+
+  /* else if ((GetWorld()->GetTimeSeconds()) - LastDoorOpen > GapTime)                    /// now my door closes exactly at GapTime i.e. 0.5 seconds
+		CloseDoor();*/
+	else
+	{
+		CloseDoor();
 	}
 	
-	else if ((GetWorld()->GetTimeSeconds()) - LastDoorOpen > GapTime)
-		CloseDoor();
-	  
+	
+	
+	UE_LOG(LogTemp, Warning, TEXT(" trigger volume at %s"), *TriggerVolumeLocation.ToString());
 
 }
 
