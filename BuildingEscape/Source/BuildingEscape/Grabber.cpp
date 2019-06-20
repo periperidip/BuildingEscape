@@ -99,10 +99,11 @@ void UGrabber::Grab()
 	/// ^^^ GetComponent returns the component that was hit ^^^
 	if (ActorHit)
 	{
-		PhysicsHandle->GrabComponentAtLocation(
+		PhysicsHandle->GrabComponent(
 			ComponentToGrab
 			, NAME_None
 			, ComponentToGrab->GetOwner()->GetActorLocation()
+			, true
 			);
 	}
 }

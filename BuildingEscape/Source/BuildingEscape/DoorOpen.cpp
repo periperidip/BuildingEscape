@@ -4,7 +4,10 @@
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 #include "BuildingEscape.h"
+#include "Components/PrimitiveComponent.h"
 
+
+#define OUT
 
 
 // Sets default values for this component's properties
@@ -23,9 +26,6 @@ void UDoorOpen::BeginPlay()
 	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();  /// This will set our actor to our default pawn itself
 																		 /// This is a Top->Bottom Approach.We first find the World that has controller
 																		 /// Then we find the actor/pawn held by the controller.
-
-
-	
 }
 
 void UDoorOpen::OpenDoor()
@@ -48,33 +48,27 @@ void UDoorOpen::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
     
-	//if (PressurePlate->IsOverlappingActor(ActorThatOpens))
-	//{
-	//	OpenDoor();
-	//	LastDoorOpen = GetWorld()->GetTimeSeconds();    //TODO find exact meaning of GetTimeSeconds
-	//}
-	FHitResult Hit;
-
-	FVector TriggerVolumeLocation = PressurePlate->GetActorLocation();
-	FVector TriggerVolumeHeight = FVector(0.f, 0.f, 21.f);
-
-	if (GetWorld()->LineTraceSingleByObjectType(OUT Hit, TriggerVolumeLocation, TriggerVolumeHeight,
-		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody), FCollisionQueryParams(FName(TEXT("")), false, GetOwner())))
+	if (GetTotalMassOfActorsOnPlate()>9.f)
 	{
 		OpenDoor();
-		LastDoorOpen = GetWorld()->GetTimeSeconds();
+		LastDoorOpen = GetWorld()->GetTimeSeconds();    //TODO find exact meaning of gettimeseconds
 	}
-
-  /* else if ((GetWorld()->GetTimeSeconds()) - LastDoorOpen > GapTime)                    /// now my door closes exactly at GapTime i.e. 0.5 seconds
-		CloseDoor();*/
-	else
-	{
+	
+   else if ((GetWorld()->GetTimeSeconds()) - LastDoorOpen > GapTime)                    /// now my door closes exactly at GapTime i.e. 0.5 seconds
 		CloseDoor();
-	}
-	
-	
-	
-	UE_LOG(LogTemp, Warning, TEXT(" trigger volume at %s"), *TriggerVolumeLocation.ToString());
+}
 
+float UDoorOpen::GetTotalMassOfActorsOnPlate()
+{
+	float TotalMass = 0.f;
+	TArray<AActor*> ActorsOverlappingTrigger;
+	PressurePlate->GetOverlappingActors(OUT ActorsOverlappingTrigger);
+
+	for (auto* i : ActorsOverlappingTrigger)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Actor %s"), *(i->GetName()));
+		TotalMass += i->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+	}
+	return TotalMass;
 }
 
