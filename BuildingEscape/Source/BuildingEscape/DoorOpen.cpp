@@ -30,16 +30,20 @@ void UDoorOpen::BeginPlay()
 
 void UDoorOpen::OpenDoor()
 {
-	Owner = GetOwner();                                                  ///<- The door here is the owner
+	/*Owner = GetOwner();                                                  ///<- The door here is the owner
     FRotator NewRotation = FRotator(0.0f,OpenAngle, 0.0f);
-    Owner->SetActorRotation(NewRotation);
+    Owner->SetActorRotation(NewRotation);*/
+
+	OnOpenRequest.Broadcast();
+
 }
 
 void UDoorOpen::CloseDoor()
 {
-	Owner = GetOwner();
+	/*Owner = GetOwner();
 	FRotator NewRotator = FRotator(0.f, 0.f, 0.f);
-    Owner->SetActorRotation(NewRotator);
+    Owner->SetActorRotation(NewRotator);*/
+	OnCloseRequest.Broadcast();
 }
 
 
@@ -47,15 +51,12 @@ void UDoorOpen::CloseDoor()
 void UDoorOpen::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-    
-	if (GetTotalMassOfActorsOnPlate()>9.f)
-	{
-		OpenDoor();
-		LastDoorOpen = GetWorld()->GetTimeSeconds();    //TODO find exact meaning of gettimeseconds
-	}
-	
-   else if ((GetWorld()->GetTimeSeconds()) - LastDoorOpen > GapTime)                    /// now my door closes exactly at GapTime i.e. 0.5 seconds
-		CloseDoor();
+
+	if (GetTotalMassOfActorsOnPlate() > TriggerMass)
+	{OpenDoor();}
+
+	else
+	{CloseDoor();}
 }
 
 float UDoorOpen::GetTotalMassOfActorsOnPlate()

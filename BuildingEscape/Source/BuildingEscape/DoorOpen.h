@@ -7,6 +7,8 @@
 #include "Components/ActorComponent.h"
 #include "DoorOpen.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDoorRequest);
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUILDINGESCAPE_API UDoorOpen : public UActorComponent
@@ -32,12 +34,13 @@ private:
 
 	/// using private so that only member functions can access these
 
-	UPROPERTY(EditAnywhere) float OpenAngle = 90.0f;     
-
-	UPROPERTY(EditAnywhere) ATriggerVolume* PressurePlate;             
+	UPROPERTY(EditAnywhere) ATriggerVolume* PressurePlate=nullptr;             
 	/// ^^^  used to see when an actor has entered this particular area and then give response  ^^^
 	                                                          
-	UPROPERTY(EditAnywhere) float GapTime = 0.5f;
+	UPROPERTY(EditAnywhere) float TriggerMass=30.f;
+	
+	UPROPERTY(BlueprintAssignable)FDoorRequest OnOpenRequest;
+	UPROPERTY(BlueprintAssignable)FDoorRequest OnCloseRequest;
 	
 	AActor* ActorThatOpens;
 	AActor* Owner;
